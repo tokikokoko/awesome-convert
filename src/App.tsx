@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import * as styles from "./styles.css";
-import init, { b64encode, b64decode } from "./b64-wasm/pkg";
+import init, { b64encode, b64decode } from "./b64";
 
 const encodeB64 = (text: string) => b64encode(text);
 const decodeB64 = (text: string) => b64decode(text);

@@ -1,0 +1,15 @@
+{
+  "name": "b64-wasm",
+  "collaborators": [
+    "Keita Iwatani <tokiko.develop@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "b64_wasm_bg.wasm",
+    "b64_wasm.js",
+    "b64_wasm.d.ts"
+  ],
+  "module": "b64_wasm.js",
+  "types": "b64_wasm.d.ts",
+  "sideEffects": false
+}
