@@ -115,6 +115,12 @@ function App() {
     event.preventDefault();
   };
 
+  const handleClearButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setMessage({ message: "Clear text", isFadeOut: true });
+    setInputText("");
+    setReturnText("");
+    event.preventDefault();
+  };
   const isEmpty = () => returnText === "";
 
   return (
@@ -170,6 +176,9 @@ function App() {
           className={styles.buttons}
         >
           Copy
+        </Button>
+        <Button onClick={handleClearButton} className={styles.buttons}>
+          Clear
         </Button>
         <Button
           disabled={!isSuccess || isEmpty()}
