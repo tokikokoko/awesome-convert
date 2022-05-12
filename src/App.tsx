@@ -110,6 +110,7 @@ function App() {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     setInputText(returnText);
+    setMessage(defaultMessage);
     setReturnText("");
     event.preventDefault();
   };

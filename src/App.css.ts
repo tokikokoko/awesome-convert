@@ -24,6 +24,7 @@ export const messageBox = style({
   top: "1.5em",
   width: "90%",
   opacity: "98%",
+  color: c.c.black,
 });
 
 export const infoMessageBox = style([

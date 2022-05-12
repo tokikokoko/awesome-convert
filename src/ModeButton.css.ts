@@ -1,9 +1,10 @@
 import { style } from "@vanilla-extract/css";
-import { defaultButton } from "./Common.css";
+import * as c from "./Common.css";
 
 export const selectedButton = style([
-  defaultButton,
+  c.defaultButton,
   {
-    background: "Green",
+    color: c.c.black,
+    background: c.c.lightGreen,
   },
 ]);

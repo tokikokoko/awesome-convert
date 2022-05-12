@@ -12,8 +12,10 @@ export const colors = {
   black: "rgb(33, 33, 33)",
   white: "rgb(200, 200, 200)",
   gray: "rgb(150, 150, 150)",
-  info: "rgb(60, 99, 60)",
-  error: "rgb(99, 60, 60)",
+  lightGreen: "rgb(140, 200, 140)",
+  // info: "rgb(60, 99, 60)",
+  info: "rgb(140, 200, 140)",
+  error: "rgb(200, 140, 140)",
 };
 export const c = colors;
 
