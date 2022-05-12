@@ -20,7 +20,7 @@ export const messageBox = style({
   padding: "10px",
   border: "solid",
   borderRadius: "5px",
-  position: "absolute",
+  position: "fixed",
   top: "1.5em",
   width: "90%",
   opacity: "98%",

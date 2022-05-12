@@ -7,22 +7,22 @@ import * as styles from "./App.css";
 
 interface Message {
   message: string;
+  level: "info" | "error";
   isFadeOut: boolean;
 }
 const defaultMessage: Message = {
   message: "",
+  level: "info",
   isFadeOut: false,
 };
 
-const MessageBox = (props: {
-  level?: string;
-  last: Date;
-  message: Message;
-}) => {
+const MessageBox = (props: { last: Date; message: Message }) => {
   const [isDisplay, setIsDisplay] = useState(true);
 
   const cls =
-    props.level === "info" ? styles.infoMessageBox : styles.errorMessageBox;
+    props.message.level === "info"
+      ? styles.infoMessageBox
+      : styles.errorMessageBox;
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsDisplay(false);
@@ -54,10 +54,7 @@ const MessageBox = (props: {
 };
 
 function App() {
-  const [message, setMessage] = useState<Message>({
-    message: "",
-    isFadeOut: false,
-  });
+  const [message, setMessage] = useState<Message>(defaultMessage);
   const [inputText, setInputText] = useState("");
   const [returnText, setReturnText] = useState("");
   const [mode, setMode] = useState<Mode>(Mode.PtoB64);
@@ -89,7 +86,7 @@ function App() {
       setIsSuccses(true);
     } catch (e: any) {
       console.error(e);
-      setMessage({ message: e.toString(), isFadeOut: false });
+      setMessage({ message: e.toString(), isFadeOut: false, level: "error" });
       setIsSuccses(false);
     }
   };
@@ -102,7 +99,11 @@ function App() {
 
   const handleCopyButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     navigator.clipboard.writeText(returnText);
-    setMessage({ message: "Copied to clipboard", isFadeOut: true });
+    setMessage({
+      message: "Copied to clipboard",
+      isFadeOut: true,
+      level: "info",
+    });
     event.preventDefault();
   };
 
@@ -116,7 +117,7 @@ function App() {
   };
 
   const handleClearButton = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setMessage({ message: "Clear text", isFadeOut: true });
+    setMessage({ message: "Clear text", isFadeOut: true, level: "info" });
     setInputText("");
     setReturnText("");
     event.preventDefault();
@@ -126,11 +127,7 @@ function App() {
   return (
     <div className={`App ${styles.appContainer}`}>
       <div className={styles.messageContainer}>
-        <MessageBox
-          level={isSuccess ? "info" : "error"}
-          message={message}
-          last={new Date()}
-        />
+        <MessageBox message={message} last={new Date()} />
       </div>
       <h1 className={styles.title}>Convert some text</h1>
       <div className={styles.formContainer}>
