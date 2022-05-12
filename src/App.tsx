@@ -126,6 +126,24 @@ function App() {
         />
       </div>
       <h1 className={styles.title}>Convert some text</h1>
+      <div className={styles.formContainer}>
+        <div className={styles.formChildContainer}>
+          <label className={styles.formLabel}>Input some text</label>
+          <textarea
+            className={styles.textarea}
+            value={inputText}
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.formChildContainer}>
+          <label className={styles.formLabel}>Result</label>
+          <textarea
+            disabled
+            className={isSuccess ? styles.textarea : styles.errorTextarea}
+            value={isSuccess ? returnText : "Convert error"}
+          />
+        </div>
+      </div>
       <div className={styles.modesContainer}>
         <ModeButton
           onClick={handleMode(Mode.PtoB64)}
@@ -159,24 +177,6 @@ function App() {
         >
           Use result
         </Button>
-      </div>
-      <div className={styles.formContainer}>
-        <div className={styles.formChildContainer}>
-          <label className={styles.formLabel}>Input some text</label>
-          <textarea
-            className={styles.textarea}
-            value={inputText}
-            onChange={handleChange}
-          />
-        </div>
-        <div className={styles.formChildContainer}>
-          <label className={styles.formLabel}>Result</label>
-          <textarea
-            disabled
-            className={isSuccess ? styles.textarea : styles.errorTextarea}
-            value={isSuccess ? returnText : "Convert error"}
-          />
-        </div>
       </div>
     </div>
   );

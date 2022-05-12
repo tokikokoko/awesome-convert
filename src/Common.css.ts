@@ -21,6 +21,8 @@ export const defaultButton = style({
   padding: "7px 10px 7px 10px",
   borderRadius: "5px",
   fontSize: "1em",
+  color: c.black,
+  textDecoration: "none",
   ":disabled": {
     background: c.gray,
     color: c.black,

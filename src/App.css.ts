@@ -83,6 +83,10 @@ export const textarea = style([
     color: c.c.black,
     backgroundColor: c.c.white,
     fontSize: c.fs.normal,
+    ":disabled": {
+      color: c.c.black,
+      backgroundColor: c.c.white,
+    },
   },
 ]);
 
