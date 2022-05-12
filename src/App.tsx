@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import * as styles from "./styles.css";
-import init, { b64encode, b64decode } from "./b64";
-
-const encodeB64 = (text: string) => b64encode(text);
-const decodeB64 = (text: string) => b64decode(text);
-
-const MODE = {
-  PtoB64: "PtoB64",
-  B64toP: "B64toP",
-} as const;
-type MODE = typeof MODE[keyof typeof MODE];
+import init from "./b64";
+import { Mode, encodeB64, decodeB64 } from "./convert";
+import ModeButton from "./ModeButton";
+import { Button } from "./Common";
+import * as styles from "./App.css";
 
 function App() {
   const [inputText, setInputText] = useState("");
   const [returnText, setReturnText] = useState("");
-  const [mode, setMode] = useState<MODE>(MODE.PtoB64);
+  const [mode, setMode] = useState<Mode>(Mode.PtoB64);
   const [isSuccess, setIsSuccses] = useState(true);
 
-  const handleMode = (m: MODE) => {
+  const handleMode = (m: Mode) => {
     return (event: React.MouseEvent<HTMLButtonElement>) => {
-      console.debug("click", m);
       setMode(m);
       convertText(m, inputText);
       event.preventDefault();
@@ -31,13 +23,13 @@ function App() {
     init();
   }, []);
 
-  const convertText = (m: MODE, t: string) => {
+  const convertText = (m: Mode, t: string) => {
     try {
       switch (m) {
-        case MODE.PtoB64:
+        case Mode.PtoB64:
           setReturnText(encodeB64(t));
           break;
-        case MODE.B64toP:
+        case Mode.B64toP:
           setReturnText(decodeB64(t));
           break;
       }
@@ -48,7 +40,7 @@ function App() {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
     convertText(mode, event.target.value);
     event.preventDefault();
@@ -67,56 +59,46 @@ function App() {
     event.preventDefault();
   };
 
-  const isCurrentMode = (m: MODE) => {
-    return m === mode;
-  };
-
   return (
-    <div className="App">
-      <button
-        onClick={handleMode(MODE.PtoB64)}
-        className={
-          isCurrentMode(MODE.PtoB64) ? styles.selectedButton : undefined
-        }
-      >
-        Plain text to Base64
-      </button>
-      <button
-        onClick={handleMode(MODE.B64toP)}
-        className={
-          isCurrentMode(MODE.B64toP) ? styles.selectedButton : undefined
-        }
-      >
-        Base64 to Plain text
-      </button>
+    <div className={`App ${styles.appContainer}`}>
+      <div className={styles.modesContainer}>
+        <ModeButton
+          onClick={handleMode(Mode.PtoB64)}
+          mode={Mode.PtoB64}
+          currentMode={mode}
+        >
+          Base64 to Plain text
+        </ModeButton>
+        <ModeButton
+          onClick={handleMode(Mode.B64toP)}
+          mode={Mode.B64toP}
+          currentMode={mode}
+        >
+          Base64 to Plain text
+        </ModeButton>
+      </div>
       <div className={styles.formContainer}>
         <div className={styles.formChildContainer}>
-          <label>
-            Input some text
-            <br />
-            <input
-              type="textarea"
-              className={styles.textarea}
-              value={inputText}
-              onChange={handleChange}
-            ></input>
-          </label>
+          <label className={styles.formLabel}>Input some text</label>
+          <textarea
+            className={styles.textarea}
+            value={inputText}
+            onChange={handleChange}
+          />
         </div>
         <div className={styles.formChildContainer}>
-          <label>
-            Result
-            <br />
-            <input
-              disabled
-              type="textarea"
-              className={isSuccess ? styles.textarea : styles.errorTextarea}
-              value={returnText}
-            ></input>
-          </label>
+          <label className={styles.formLabel}>Result</label>
+          <textarea
+            disabled
+            className={isSuccess ? styles.textarea : styles.errorTextarea}
+            value={returnText}
+          />
         </div>
       </div>
-      <button onClick={handleCopyButton}>Copy</button>
-      <button onClick={handleUseResultButton}>Use result</button>
+      <div className={styles.utilsContainer}>
+        <Button onClick={handleCopyButton}>Copy</Button>
+        <Button onClick={handleUseResultButton}>Use result</Button>
+      </div>
     </div>
   );
 }

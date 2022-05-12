@@ -1,3 +1,4 @@
 dist
 node_modules
-src/b64-wasm
+b64-wasm
+src/b64
