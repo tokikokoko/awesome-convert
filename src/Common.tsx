@@ -7,6 +7,7 @@ export const Button = (
   const cls = props.className ? props.className : "";
   return (
     <button
+      disabled={props.disabled}
       onClick={props.onClick}
       className={`${styles.defaultButton} ${cls}`}
     >

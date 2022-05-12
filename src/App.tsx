@@ -5,7 +5,59 @@ import ModeButton from "./ModeButton";
 import { Button } from "./Common";
 import * as styles from "./App.css";
 
+interface Message {
+  message: string;
+  isFadeOut: boolean;
+}
+const defaultMessage: Message = {
+  message: "",
+  isFadeOut: false,
+};
+
+const MessageBox = (props: {
+  level?: string;
+  last: Date;
+  message: Message;
+}) => {
+  const [isDisplay, setIsDisplay] = useState(true);
+
+  const cls =
+    props.level === "info" ? styles.infoMessageBox : styles.errorMessageBox;
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    setIsDisplay(false);
+    event.preventDefault();
+  };
+
+  useEffect(() => {
+    let timer: number | undefined;
+    if (props.message.message !== "") {
+      setIsDisplay(true);
+      if (props.message.isFadeOut) {
+        timer = setTimeout(() => setIsDisplay(false), 2 * 1000);
+      }
+    } else {
+      setIsDisplay(false);
+    }
+    return () => clearTimeout(timer);
+  }, [props.last]);
+
+  return (
+    <div>
+      {isDisplay ? (
+        <div className={cls} onClick={handleClick}>
+          {props.message.message}
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
 function App() {
+  const [message, setMessage] = useState<Message>({
+    message: "",
+    isFadeOut: false,
+  });
   const [inputText, setInputText] = useState("");
   const [returnText, setReturnText] = useState("");
   const [mode, setMode] = useState<Mode>(Mode.PtoB64);
@@ -24,6 +76,7 @@ function App() {
   }, []);
 
   const convertText = (m: Mode, t: string) => {
+    setMessage(defaultMessage);
     try {
       switch (m) {
         case Mode.PtoB64:
@@ -34,8 +87,9 @@ function App() {
           break;
       }
       setIsSuccses(true);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      setMessage({ message: e.toString(), isFadeOut: false });
       setIsSuccses(false);
     }
   };
@@ -48,6 +102,7 @@ function App() {
 
   const handleCopyButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     navigator.clipboard.writeText(returnText);
+    setMessage({ message: "Copied to clipboard", isFadeOut: true });
     event.preventDefault();
   };
 
@@ -59,13 +114,24 @@ function App() {
     event.preventDefault();
   };
 
+  const isEmpty = () => returnText === "";
+
   return (
     <div className={`App ${styles.appContainer}`}>
+      <div className={styles.messageContainer}>
+        <MessageBox
+          level={isSuccess ? "info" : "error"}
+          message={message}
+          last={new Date()}
+        />
+      </div>
+      <h1 className={styles.title}>Convert some text</h1>
       <div className={styles.modesContainer}>
         <ModeButton
           onClick={handleMode(Mode.PtoB64)}
           mode={Mode.PtoB64}
           currentMode={mode}
+          className={styles.buttons}
         >
           Base64 to Plain text
         </ModeButton>
@@ -73,9 +139,26 @@ function App() {
           onClick={handleMode(Mode.B64toP)}
           mode={Mode.B64toP}
           currentMode={mode}
+          className={styles.buttons}
         >
           Base64 to Plain text
         </ModeButton>
+      </div>
+      <div className={styles.utilsContainer}>
+        <Button
+          disabled={!isSuccess || isEmpty()}
+          onClick={handleCopyButton}
+          className={styles.buttons}
+        >
+          Copy
+        </Button>
+        <Button
+          disabled={!isSuccess || isEmpty()}
+          onClick={handleUseResultButton}
+          className={styles.buttons}
+        >
+          Use result
+        </Button>
       </div>
       <div className={styles.formContainer}>
         <div className={styles.formChildContainer}>
@@ -91,13 +174,9 @@ function App() {
           <textarea
             disabled
             className={isSuccess ? styles.textarea : styles.errorTextarea}
-            value={returnText}
+            value={isSuccess ? returnText : "Convert error"}
           />
         </div>
-      </div>
-      <div className={styles.utilsContainer}>
-        <Button onClick={handleCopyButton}>Copy</Button>
-        <Button onClick={handleUseResultButton}>Use result</Button>
       </div>
     </div>
   );

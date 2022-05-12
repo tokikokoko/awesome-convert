@@ -7,8 +7,46 @@ export const appContainer = style({
   color: c.c.white,
 });
 
+export const title = style({
+  fontSize: c.fs.huge,
+  margin: "10px",
+});
+
+export const messageContainer = style({
+  margin: "10px",
+});
+
+export const messageBox = style({
+  padding: "10px",
+  border: "solid",
+  borderRadius: "5px",
+  position: "absolute",
+  top: "1.5em",
+  width: "90%",
+  opacity: "98%",
+});
+
+export const infoMessageBox = style([
+  messageBox,
+  {
+    backgroundColor: c.c.info,
+    borderColor: c.c.info,
+  },
+]);
+
+export const errorMessageBox = style([
+  messageBox,
+  {
+    backgroundColor: c.c.error,
+    borderColor: c.c.error,
+  },
+]);
+
 export const modesContainer = style({
-  margin: "20px",
+  margin: "5px 0px 0px 20px",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  justifyContent: "center",
 });
 
 export const formContainer = style({
@@ -19,7 +57,10 @@ export const formContainer = style({
 });
 
 export const utilsContainer = style({
-  margin: "10px",
+  margin: "5px 0px 0px 20px",
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
 });
 
 export const formChildContainer = style({
@@ -47,6 +88,13 @@ export const textarea = style([
 export const errorTextarea = style([
   textarea,
   {
-    background: "Red",
+    color: c.c.white,
+    background: c.c.error,
+    textAlign: "center",
+    fontSize: c.fs.large,
   },
 ]);
+
+export const buttons = style({
+  margin: "5px 5px 0px 0px",
+});

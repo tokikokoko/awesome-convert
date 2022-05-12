@@ -20,9 +20,10 @@ export const ModeButton = (
   return (
     <Button
       onClick={props.onClick}
-      className={
-        isCurrentMode() ? styles.selectedButton : commonStyles.defaultButton
-      }
+      className={[
+        props.className,
+        isCurrentMode() ? styles.selectedButton : commonStyles.defaultButton,
+      ].join(" ")}
     >
       {props.children}
     </Button>

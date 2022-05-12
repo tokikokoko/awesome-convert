@@ -31,7 +31,7 @@ pub fn b64encode(ot: Option<String>) -> String {
 #[wasm_bindgen]
 pub fn b64decode(ot: Option<String>) -> String {
     if let Some(t) = ot {
-        return String::from(decode(t).as_ref().map(|tt| { str::from_utf8(tt).unwrap_or("") }).unwrap_or(""));
+        return String::from(decode(t).as_ref().map(|tt| { str::from_utf8(tt).unwrap() }).unwrap());
     }
     return String::from("");
 }
