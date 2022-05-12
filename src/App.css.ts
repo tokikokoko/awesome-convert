@@ -82,6 +82,7 @@ export const textarea = style([
     margin: "10px",
     color: c.c.black,
     backgroundColor: c.c.white,
+    fontSize: c.fs.normal,
   },
 ]);
 
